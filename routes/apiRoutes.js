@@ -19,7 +19,7 @@ module.exports = app => {
             let newNote = req.body;
             notes.push(newNote);
             updateNote();
-            return console.log("The note" + newNote.title + "was added");
+            return console.log("The note was added");
 
         });
 
@@ -30,7 +30,7 @@ module.exports = app => {
         app.delete("/api/notes/:id", (req,res) => {
             notes.splice(req.params.id, 1);
             updateNote();
-            console.log("The note was deleted");
+            console.log("The note was deleted with id" + req.params.id);
         });
 
         app.get("/notes", (req, res) => {
