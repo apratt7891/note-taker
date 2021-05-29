@@ -34,15 +34,15 @@ module.exports = app => {
         });
 
         app.get("/notes", (req, res) => {
-            res.sendFile(path.join(__dirname, "../public.notes.html"));
+            res.sendFile(path.join(__dirname, "../public/notes.html"));
         });
 
-        app.get("/", (req, res) => {
-            res.sendFile(path.join(__dirname, "../public.index.html"));
+        app.get("*", (req, res) => {
+            res.sendFile(path.join(__dirname, "../public/index.html"));
         });
 
         function updateNote() {
-            fs.readFile("db/db.json", JSON.stringify(notes,'\t'), err  => {
+            fs.writeFile("db/db.json", JSON.stringify(notes,'\t'), err  => {
                 if (err) throw err;
                 return true;
         });
