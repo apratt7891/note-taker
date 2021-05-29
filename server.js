@@ -1,12 +1,12 @@
-const fs = require('fs');
+const express = require('express');
 const path = require('path');
 
 
-const express = require('express');
-const PORT = process.env.PORT || 3001;
 const app = express();
+const PORT = process.env.PORT || 3001;
 
-app.use(express.static(__dirname));
+
+app.use(express.static("public"));
 
 // parse incoming string or array data
 app.use(express.urlencoded({ extended: true }));
@@ -15,6 +15,8 @@ app.use(express.json());
 
 
 require('./routes/apiRoutes')(app);
+require('./routes/htmlRoutes')(app);
+
 
 
 
