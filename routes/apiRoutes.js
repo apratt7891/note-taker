@@ -1,27 +1,36 @@
 const fs = require("fs");
-const notesAdded = require('../db/db.json');
+const path = require('path');
 
 module.exports = app => {
 
-
-function savedNotes (notes) {
-    notes = JSON.stringify(notes);
-    fs.writeFileSync('./db/db.json', notes, function(err) {
+    fs.readFile("db/db.json", "utf8", (err, data) => {
         if (err) throw err;
-        return true;
-        }
-    )    
+
+        let notes = JSON.parse(data);
+
+
 
 app.get("/api/notes", (req, res) => {
-    res.join(notesAdded);
+    res.join(notes);
 });
 
 app.post("/api/notes", (req, res) => {
-    req.body.id = notesAdded.length.toString();
 
-    notesAdded.push(req.body);
+    let addNote = req.body;
+    notes.push(addNote);
+    noteAdded();
+    return console.log("The note" + addNote.title + "was added");
 
-    savedNotes(notesAdded);
+});
 
-    res.json(req.body);
+app.get("/api/notes/:id", (req, res) => {
+    res.json(notes[req.params.id]);
+});
+
+app.get("/notes", (req, res) => {
+    res.sendFile(path.join(__dirname, "../public.notes.html"));
+});
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "../public.index.html"));
 });
